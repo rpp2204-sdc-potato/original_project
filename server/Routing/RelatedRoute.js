@@ -14,11 +14,12 @@ const headers = {
 };
 
 router.get('/:id', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.id}/related`, headers)
+  axios.get(`http://localhost:1234/products/${req.params.id}/related`, headers)
     // .then((result) => res.send(result.data))
     // [71702, 71702, 71704, 71705, 71697, 71699]
     .then((results) => {
       // remove original product Id
+      console.log(results);
       const newProdsArr = results.data.filter((value) => value !== req.params.id);
       // remove duplicate product Ids
       const uniqueArr = [...new Set(newProdsArr)];
@@ -28,12 +29,12 @@ router.get('/:id', (req, res) => {
       const promiseArr = [];
       // push promises for productID call
       arr.forEach((value) => {
-        promiseArr.push(axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${value}`, headers)
+        promiseArr.push(axios.get(`http://localhost:1234/products/${value}`, headers)
           .then((result) => result.data));
       });
       // push promises for product styles call
       arr.forEach((value) => {
-        promiseArr.push(axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${value}/styles`, headers)
+        promiseArr.push(axios.get(`http://localhost:1234/products/${value}/styles`, headers)
           .then((result) => result.data));
       });
       // push promises for review ratings
@@ -80,7 +81,10 @@ router.get('/:id', (req, res) => {
       });
       res.send(finalResult);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      // console.log(err);
+      res.status(404).send(err);
+    });
 });
 
 module.exports = router;

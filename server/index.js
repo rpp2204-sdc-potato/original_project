@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: true }));
 // app.use(fileUpload());
 
 app.get('/productinfo/:id', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.id}`, headers)
+  axios.get(`http://localhost:1234/products/${req.params.id}`, headers)
     .then((result) => {
       res.send(result.data);
     })
@@ -31,7 +31,7 @@ app.get('/productinfo/:id', (req, res) => {
 });
 
 app.get('/styles/:id', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/products/${req.params.id}/styles`, headers)
+  axios.get(`http://localhost:1234/products/${req.params.id}/styles`, headers)
     .then((result) => res.send(result.data))
     .catch((err) => res.send(err));
 });
