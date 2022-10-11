@@ -10,6 +10,7 @@ const RelatedRoute = require('./Routing/RelatedRoute');
 const app = express();
 
 const { PORT } = process.env;
+const { APIPORT } = process.env;
 const headers = {
   headers: {
     Authorization: process.env.AUTH,
@@ -93,7 +94,7 @@ app.get('/qanda/answer/reported/:id', (req, res) => {
 });
 
 app.get('/reviews/:id', (req, res) => {
-  axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews/meta/?product_id=${req.params.id}`, headers)
+  axios.get(`http://localhost:${APIPORT}/reviews/${req.params.id}`, headers)
     .then((result) => res.send(result.data))
     .catch((err) => res.send(err));
 });
@@ -101,11 +102,11 @@ app.get('/reviews/:id', (req, res) => {
 app.get('/reviews/meta/:id', (req, res) => {
   const { sortTerm } = req.query;
   if (sortTerm) {
-    axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${req.params.id}&sort=${sortTerm}&count=50`, headers)
+    axios.get(`http://localhost:${APIPORT}/reviews/meta/${req.params.id}?sort=${sortTerm}&count=50`, headers)
       .then((result) => res.send(result.data))
       .catch((err) => res.send(err));
   } else {
-    axios.get(`https://app-hrsei-api.herokuapp.com/api/fec2/hr-rpp/reviews?product_id=${req.params.id}&count=50`, headers)
+    axios.get(`http://localhost:${APIPORT}/reviews/meta/${req.params.id}?count=50`, headers)
       .then((result) => res.send(result.data))
       .catch((err) => res.send(err));
   }
